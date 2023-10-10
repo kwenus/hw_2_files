@@ -1,8 +1,12 @@
+# считывание файла полностью
+# создание списка рецептов
+# без указания конца файла
+
 from pprint import pprint
 
 # считываем информацию из файла:
 
-with open('recipes.txt') as recipes:
+with open('recipes_2.txt') as recipes:
     string_of_recipes = recipes.read()
 
 # создаем список рецептов без лишних символов:
@@ -31,4 +35,4 @@ for el in sep_recipes:
     cook_book[el[0]] = [{'ingredient_name': (el[2+id].split('|')[0]).strip(), 'quantity': int(el[2+id].split('|')[1]),
                         'measure': (el[2+id].split('|')[2]).strip()} for id, loop in enumerate(range(int(el[1])))]
 
-# pprint(cook_book)
+pprint(cook_book)

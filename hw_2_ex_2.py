@@ -1,24 +1,18 @@
 from pprint import pprint
 
-from hw_2_ex_1 import cook_book
+from hw_2_ex_1_v2 import cook_book
 
 def get_shop_list_by_dishes(dishes, person_count):
-    shop_list = {}
-    list_products = []                         # создаем список продуктов
-    for dish in dishes:                        # выбираем блюдо в списке
-        for recipe in cook_book[dish]:         # выбираем рецепт по названию блюда
-            ingridient = []                    # создаем пустой ингридиенто
-            for item in recipe.items():        # получаем элемент списка через метод items
-                ingridient.append(item[1])     # добавляем элемент в ингридиент
-            list_products.append(ingridient)   # добавляем ингридиент в список продуктов
+    shop_list = {}                                                                                                      # создаем список покупок
+    for dish in dishes:
+        for item in cook_book[dish]:
+            if item['ingredient_name'] in shop_list:                                                                    # если продукт уже в списке покупок изменяем
+                shop_list[item['ingredient_name']]['quantity'] += (item['quantity'] * person_count)                     # его значение по ключу
+            else:
+                shop_list[item['ingredient_name']] = {                                                                  # если нет заполняем значения по ключам
+                    'quantity': item['quantity'] * person_count,
+                    'measure': item['measure'],
+                }
+    return shop_list
 
-    for element in list_products:
-        element[1] = element[1] * person_count
-
-
-    pprint(sorted(list_products))
-
-
-get_shop_list_by_dishes(['Запеченный картофель', 'Уха', 'Нагетсы', 'Омлет'], 3)
-
-
+pprint(get_shop_list_by_dishes(['Нагетсы', 'Крылышки барбекю', 'Омлет'], 3))
